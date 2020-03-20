@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import './App.css';
+import {connect}from 'react-redux'
 class App extends Component {
   state = {
     count:0
@@ -16,16 +17,27 @@ class App extends Component {
     this.setState({count:this.state.count-1})
   }
   render() {
+    console.log(this.props);
     return (
       <div>
-        <button onClick={this.increment}> + </button>
+        <button onClick={this.props.increase}> + </button>
         <div>
-          {this.state.count}
+          {this.props.count}
         </div>
-        <button onClick={this.decrement}> - </button>
+        <button onClick={this.props.decrease}> - </button>
       </div>
     )
   }
 }
-
-export default App;
+function mapStateTOprops(state) {
+  return {
+    count: state.count
+  }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    increase: () => { dispatch({ type: 'INCREAS' }) },
+   decrease:()=>{dispatch({type:'DECREASE'})}
+  }
+}
+export default connect(mapStateTOprops,mapDispatchToProps)(App);
